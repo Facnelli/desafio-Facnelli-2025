@@ -20,7 +20,7 @@ class AbrigoAnimais {
 
     //verifica animal válido
     const verificaAnimal = ordem.every((a) => a != null);
-    const verificaDuplicado = new Set(nomes).size === nomes.length; //compara tamanho sem repetição com tamanho total
+    const verificaDuplicado = new Set(nomes).size === nomes.length;
     if (!verificaAnimal || !verificaDuplicado) {
       return { erro: "Animal inválido", lista: null };
     }
@@ -42,6 +42,7 @@ class AbrigoAnimais {
             pessoa.adotou(bichinho);
           } else {
             //volta pro abrigo se duas pessoas poderem adotar
+            bichinho.dono.desadotou(bichinho.nome);
             bichinho.adotar("abrigo"); //tadinho
           }
         }
@@ -64,7 +65,7 @@ class AbrigoAnimais {
           return `${a.nome} - pessoa ${a.dono.numero}`;
         return `${a.nome} - ${a.dono}`;
       })
-      .sort(); //coloca em ordem alfabética para adequar a saída do teste
+      .sort(); //coloca em ordem alfabética
 
     const resultado = { erro: false, lista };
     return resultado;

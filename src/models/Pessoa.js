@@ -68,9 +68,9 @@ class Pessoa {
   }
 
   //desadota o animal =( é usado apenas caso tente levar o Loco sozinho
-  desadotou() {
+  desadotou(nome) {
     //tira do array
-    const index = this.adotados.indexOf("Loco");
+    const index = this.adotados.indexOf(nome);
     if (index !== -1) {
       this.adotados.splice(index, 1);
     }
