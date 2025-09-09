@@ -1,9 +1,12 @@
-import criarAnimais from "../data/animais.js";
-import AbrigoAnimais from "./AbrigoAnimais.js";
+//Arquivo de teste manual
+
+import criarAnimais from "./data/Animais.js";
+import { AbrigoAnimais } from "./abrigo-animais.js";
 
 const animais = criarAnimais();
 const abrigo = new AbrigoAnimais(animais);
 
+//cenário para o teste
 const resultado = abrigo.encontraPessoas(
   "RATO,BOLA",
   "RATO,NOVELO",

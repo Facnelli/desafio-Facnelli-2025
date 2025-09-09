@@ -19,7 +19,7 @@ class Pessoa {
     }
 
     let i = 0;
-
+    //verifica se tem todos os brinquedos e se estão na ordem
     for (const brinquedo of this.brinquedos) {
       if (brinquedo === animal.brinquedos[i]) {
         i++;
@@ -54,6 +54,7 @@ class Pessoa {
   adotou(animal) {
     this.adotados++;
 
+    //se o animal adotado for um gato, adiciona na lista de brinquedosGato
     if (animal.raca === "gato") {
       for (const brinquedoAnimal of animal.brinquedos) {
         this.brinquedosGato.add(brinquedoAnimal);
@@ -61,6 +62,7 @@ class Pessoa {
     }
   }
 
+  //desadota o animal =( -- é usado apenas caso tente levar o Loco sozinho
   desadotou() {
     this.adotados--;
   }

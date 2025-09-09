@@ -9,11 +9,6 @@ class AbrigoAnimais {
   }
 
   encontraPessoas(brinquedosPessoa1, brinquedosPessoa2, ordemAnimais) {
-    console.log("=== Entrada ===");
-    console.log("Brinquedos Pessoa 1:", brinquedosPessoa1);
-    console.log("Brinquedos Pessoa 2:", brinquedosPessoa2);
-    console.log("Ordem dos Animais:", ordemAnimais);
-
     //cria/reseta os animais para o abrigo
     const Animais = criarAnimais();
 
@@ -27,7 +22,6 @@ class AbrigoAnimais {
     const verificaAnimal = ordem.every((a) => a != null);
     const verificaDuplicado = new Set(nomes).size === nomes.length; //compara tamanho sem repetição com tamanho total
     if (!verificaAnimal || !verificaDuplicado) {
-      console.log("Animal inválido");
       return { erro: "Animal inválido", lista: null };
     }
 
@@ -38,37 +32,26 @@ class AbrigoAnimais {
     this.pessoas.set(pessoa1.numero, pessoa1);
     this.pessoas.set(pessoa2.numero, pessoa2);
 
+    //para cada bichinho em ordem de animais
     for (const bichinho of ordem) {
-      //verifica se a pessoa já adotou o máximo (3)
-      if (pessoa1.adotados < 3) {
-        //verifica se pessoa1 tem os brinquedos certos na ordem certa
-        if (
-          pessoa1.temBrinquedo(bichinho) &&
-          pessoa1.permitidoAdotar(bichinho)
-        ) {
-          bichinho.adotar(pessoa1);
-          pessoa1.adotou(bichinho);
-        }
+      //verifica se pessoa1 pode adotar
+      if (pessoa1.temBrinquedo(bichinho) && pessoa1.permitidoAdotar(bichinho)) {
+        bichinho.adotar(pessoa1);
+        pessoa1.adotou(bichinho);
       }
     }
 
-    //verifica se pessoa2 tem o s brinquedos certos
+    //verifica se pessoa2 tem os brinquedos certos
     for (const bichinho of ordem) {
-      //verifica se a pessoa já adotou o máximo (3)
-      if (pessoa2.adotados < 3) {
-        //verifica se pessoa2 tem os brinquedos certos na ordem certa
-        if (
-          pessoa2.temBrinquedo(bichinho) &&
-          pessoa2.permitidoAdotar(bichinho)
-        ) {
-          //verifica se outra pessoa também pode adotar
-          if (bichinho.dono === "abrigo") {
-            bichinho.adotar(pessoa2);
-            pessoa2.adotou(bichinho);
-          } else {
-            //volta pro abrigo se duas pessoas poderem adotar
-            bichinho.adotar("abrigo"); //tadinho
-          }
+      //verifica se pessoa2 pode adotar
+      if (pessoa2.temBrinquedo(bichinho) && pessoa2.permitidoAdotar(bichinho)) {
+        //verifica se outra pessoa também pode adotar
+        if (bichinho.dono === "abrigo") {
+          bichinho.adotar(pessoa2);
+          pessoa2.adotou(bichinho);
+        } else {
+          //volta pro abrigo se duas pessoas poderem adotar
+          bichinho.adotar("abrigo"); //tadinho
         }
       }
     }
@@ -80,11 +63,13 @@ class AbrigoAnimais {
         typeof Animais.Loco.dono === "object" &&
         Animais.Loco.dono.numero === pessoa.numero
       ) {
+        //volta Loco pro abrigo se a pessoa tentar adotar só ele
         pessoa.desadotou();
         Animais.Loco.adotar("abrigo");
       }
     }
 
+    //cria lista final no formato da saída
     const lista = nomes
       .map((nome) => {
         const a = Animais[nome];
@@ -95,12 +80,8 @@ class AbrigoAnimais {
       .sort(); //coloca em ordem alfabética para adequar a saída do teste
 
     const resultado = { erro: false, lista };
-    // LOG da saída
-    console.log("=== Saída ===", resultado);
     return resultado;
   }
 }
-
-//new AbrigoAnimais().encontraPessoas("RATO,BOLA", "RATO,NOVELO", "Rex,Fofo");
 
 export { AbrigoAnimais as AbrigoAnimais };
