@@ -2,7 +2,7 @@ class Pessoa {
   constructor(numero, ...brinquedos) {
     this.numero = numero;
     this.brinquedos = brinquedos;
-    this.adotados = 0;
+    this.adotados = [];
     this.brinquedosGato = new Set(); // gato não divide
     this.gatosAdotados = 0;
   }
@@ -16,6 +16,8 @@ class Pessoa {
         )
       ) {
         return true;
+      } else {
+        return false;
       }
     }
 
@@ -36,7 +38,7 @@ class Pessoa {
 
   permitidoAdotar(animal) {
     //não pode adotar mais do que três
-    if (this.adotados >= 3) {
+    if (this.adotados.length >= 3) {
       return false;
     }
     //se esta adotando um gato ou ja adotou um antes
@@ -53,7 +55,7 @@ class Pessoa {
   }
 
   adotou(animal) {
-    this.adotados++;
+    this.adotados.push(animal.nome);
 
     if (animal.raca === "gato") {
       this.gatosAdotados++;
@@ -67,7 +69,11 @@ class Pessoa {
 
   //desadota o animal =( é usado apenas caso tente levar o Loco sozinho
   desadotou() {
-    this.adotados--;
+    //tira do array
+    const index = this.adotados.indexOf("Loco");
+    if (index !== -1) {
+      this.adotados.splice(index, 1);
+    }
   }
 }
 

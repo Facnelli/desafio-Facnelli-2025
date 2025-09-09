@@ -105,7 +105,7 @@ describe("Abrigo de Animais", () => {
       "Loco,Zero"
     );
     expect(resultado.erro).toBeFalsy();
-    expect(resultado.lista).toEqual(["Loco - abrigo", "Zero - pessoa 1"]);
+    expect(resultado.lista).toEqual(["Loco - abrigo", "Zero - abrigo"]);
   });
 
   test("Teste gato + Loco", () => {

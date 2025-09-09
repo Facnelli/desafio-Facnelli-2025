@@ -16,15 +16,6 @@ class AbrigoAnimais {
     const brinquedos2 = brinquedosPessoa2.split(",");
     let nomes = ordemAnimais.split(",");
 
-    console.log(nomes);
-
-    //coloca o loco na segunda posição se ele estiver na primeira
-    if (nomes[0] === "Loco" && nomes.length > 1) {
-      // troca com o segundo
-      [nomes[0], nomes[1]] = [nomes[1], nomes[0]];
-    }
-
-    console.log(nomes);
     const ordem = nomes.map((nome) => Animais[nome]);
 
     //verifica animal válido
@@ -35,45 +26,32 @@ class AbrigoAnimais {
     }
 
     //constroi pessoas
-    const pessoa1 = new Pessoa(1, ...brinquedos1);
-    const pessoa2 = new Pessoa(2, ...brinquedos2);
+    const pessoas = [
+      new Pessoa(1, ...brinquedos1),
+      new Pessoa(2, ...brinquedos2),
+    ];
 
-    this.pessoas.set(pessoa1.numero, pessoa1);
-    this.pessoas.set(pessoa2.numero, pessoa2);
-
-    //para cada bichinho em ordem de animais
-    for (const bichinho of ordem) {
-      //verifica se pessoa1 pode adotar
-      if (pessoa1.temBrinquedo(bichinho) && pessoa1.permitidoAdotar(bichinho)) {
-        bichinho.adotar(pessoa1);
-        pessoa1.adotou(bichinho);
-      }
-    }
-
-    //verifica se pessoa2 tem os brinquedos certos
-    for (const bichinho of ordem) {
-      //verifica se pessoa2 pode adotar
-      if (pessoa2.temBrinquedo(bichinho) && pessoa2.permitidoAdotar(bichinho)) {
-        //verifica se outra pessoa também pode adotar
-        if (bichinho.dono === "abrigo") {
-          bichinho.adotar(pessoa2);
-          pessoa2.adotou(bichinho);
-        } else {
-          //volta pro abrigo se duas pessoas poderem adotar
-          bichinho.adotar("abrigo"); //tadinho
+    for (const pessoa of pessoas) {
+      //verifica se tem os brinquedos certos
+      for (const bichinho of ordem) {
+        //verifica se pode adotar
+        if (pessoa.temBrinquedo(bichinho) && pessoa.permitidoAdotar(bichinho)) {
+          //verifica se outra pessoa tambem pode adotar
+          if (bichinho.dono === "abrigo") {
+            bichinho.adotar(pessoa);
+            pessoa.adotou(bichinho);
+          } else {
+            //volta pro abrigo se duas pessoas poderem adotar
+            bichinho.adotar("abrigo"); //tadinho
+          }
         }
       }
     }
 
-    //verificação se o Loco está sozinho
-    for (const pessoa of [pessoa1, pessoa2]) {
-      if (
-        pessoa.adotados === 1 &&
-        typeof Animais.Loco.dono === "object" &&
-        Animais.Loco.dono.numero === pessoa.numero
-      ) {
-        //volta Loco pro abrigo se a pessoa tentar adotar só ele
-        pessoa.desadotou();
+    //verificação do Loco sozinho
+    for (const pessoa of pessoas) {
+      if (pessoa.adotados.length === 1 && pessoa.adotados[0] === "Loco") {
+        pessoa.desadotou("Loco");
         Animais.Loco.adotar("abrigo");
       }
     }
