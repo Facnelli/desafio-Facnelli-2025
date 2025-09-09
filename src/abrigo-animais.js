@@ -1,91 +1,6 @@
-class Animal {
-  constructor(nome, raca, ...brinquedos) {
-    this.nome = nome;
-    this.raca = raca;
-    this.dono = "abrigo";
-    this.brinquedos = brinquedos;
-  }
-  adotar(dono) {
-    this.dono = dono;
-  }
-}
-
-const Animais = {
-  Rex: new Animal("Rex", "cão", "RATO", "BOLA"),
-  Mimi: new Animal("Mimi", "gato", "BOLA", "LASER"),
-  Fofo: new Animal("Fofo", "gato", "BOLA", "RATO", "LASER"),
-  Zero: new Animal("Zero", "gato", "RATO", "BOLA"),
-  Bola: new Animal("Bola", "cão", "CAIXA", "NOVELO"),
-  Bebe: new Animal("Bebe", "cão", "LASER", "RATO", "BOLA"),
-  Loco: new Animal("Loco", "jabuti", "SKATE", "RATO"),
-};
-
-class Pessoa {
-  constructor(numero, ...brinquedos) {
-    this.numero = numero;
-    this.brinquedos = brinquedos;
-    this.adotados = 0;
-    this.brinquedosGato = new Set(); // gato não divide
-  }
-
-  temBrinquedo(animal) {
-    if (animal.nome === "Loco") {
-      if (
-        animal.brinquedos.every((brinquedo) =>
-          this.brinquedos.includes(brinquedo)
-        )
-      ) {
-        return true;
-      }
-    }
-
-    let i = 0;
-
-    for (const brinquedo of this.brinquedos) {
-      if (brinquedo === animal.brinquedos[i]) {
-        i++;
-
-        if (i >= animal.brinquedos.length) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  }
-
-  permitidoAdotar(animal) {
-    //não pode adotar mais do que três
-    if (this.adotados >= 3) {
-      return false;
-    }
-    //se esta adotando um gato ou já adotou um antes
-    if (animal.raca === "gato" || this.brinquedosGato.size > 0) {
-      //para cada brinquedo do animal verifica se há conflito com algum já adotado
-      for (const brinquedo of animal.brinquedos) {
-        if (this.brinquedosGato.has(brinquedo)) {
-          return false;
-        }
-      }
-    }
-
-    return true;
-  }
-
-  adotou(animal) {
-    this.adotados++;
-
-    if (animal.raca === "gato") {
-      for (const brinquedoAnimal of animal.brinquedos) {
-        this.brinquedosGato.add(brinquedoAnimal);
-      }
-    }
-  }
-
-  desadotou() {
-    this.adotados--;
-  }
-}
+import Pessoa from "../src/models/Pessoa.js";
+import Animal from "./models/Animal.js";
+import criarAnimais from "./data/Animais.js";
 
 class AbrigoAnimais {
   //construtor de pessoas
@@ -98,6 +13,9 @@ class AbrigoAnimais {
     console.log("Brinquedos Pessoa 1:", brinquedosPessoa1);
     console.log("Brinquedos Pessoa 2:", brinquedosPessoa2);
     console.log("Ordem dos Animais:", ordemAnimais);
+
+    //cria/reseta os animais para o abrigo
+    const Animais = criarAnimais();
 
     //trata a entrada
     const brinquedos1 = brinquedosPessoa1.split(",");
@@ -183,6 +101,6 @@ class AbrigoAnimais {
   }
 }
 
-new AbrigoAnimais().encontraPessoas("RATO,BOLA", "RATO,NOVELO", "Rex,Fofo");
+//new AbrigoAnimais().encontraPessoas("RATO,BOLA", "RATO,NOVELO", "Rex,Fofo");
 
 export { AbrigoAnimais as AbrigoAnimais };
