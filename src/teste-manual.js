@@ -8,6 +8,6 @@ const animais = criarAnimais();
 const abrigo = new AbrigoAnimais(animais);
 
 //cenário para o teste
-const resultado = abrigo.encontraPessoas("RATO,BOLA", "RATO,NOVELO", "Rex,Fof");
+const resultado = abrigo.encontraPessoas("SKATE,RATO,BOLA", "", "Loco,Zero");
 
 console.log("Resultado Final:", resultado);

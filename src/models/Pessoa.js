@@ -4,6 +4,7 @@ class Pessoa {
     this.brinquedos = brinquedos;
     this.adotados = 0;
     this.brinquedosGato = new Set(); // gato não divide
+    this.gatosAdotados = 0;
   }
 
   temBrinquedo(animal) {
@@ -38,8 +39,8 @@ class Pessoa {
     if (this.adotados >= 3) {
       return false;
     }
-    //se esta adotando um gato ou já adotou um antes
-    if (animal.raca === "gato" || this.brinquedosGato.size > 0) {
+    //se esta adotando um gato ou ja adotou um antes
+    if (animal.raca === "gato" || this.gatosAdotados != 0) {
       //para cada brinquedo do animal verifica se há conflito com algum já adotado
       for (const brinquedo of animal.brinquedos) {
         if (this.brinquedosGato.has(brinquedo)) {
@@ -54,15 +55,17 @@ class Pessoa {
   adotou(animal) {
     this.adotados++;
 
-    //se o animal adotado for um gato, adiciona na lista de brinquedosGato
     if (animal.raca === "gato") {
-      for (const brinquedoAnimal of animal.brinquedos) {
-        this.brinquedosGato.add(brinquedoAnimal);
-      }
+      this.gatosAdotados++;
+    }
+
+    //adiciona na lista de brinquedosGato
+    for (const brinquedoAnimal of animal.brinquedos) {
+      this.brinquedosGato.add(brinquedoAnimal);
     }
   }
 
-  //desadota o animal =( -- é usado apenas caso tente levar o Loco sozinho
+  //desadota o animal =( é usado apenas caso tente levar o Loco sozinho
   desadotou() {
     this.adotados--;
   }

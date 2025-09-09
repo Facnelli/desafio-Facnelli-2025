@@ -1,5 +1,4 @@
 import Pessoa from "../src/models/Pessoa.js";
-import Animal from "./models/Animal.js";
 import criarAnimais from "./data/Animais.js";
 
 class AbrigoAnimais {
@@ -15,7 +14,17 @@ class AbrigoAnimais {
     //trata a entrada
     const brinquedos1 = brinquedosPessoa1.split(",");
     const brinquedos2 = brinquedosPessoa2.split(",");
-    const nomes = ordemAnimais.split(",");
+    let nomes = ordemAnimais.split(",");
+
+    console.log(nomes);
+
+    //coloca o loco na segunda posição se ele estiver na primeira
+    if (nomes[0] === "Loco" && nomes.length > 1) {
+      // troca com o segundo
+      [nomes[0], nomes[1]] = [nomes[1], nomes[0]];
+    }
+
+    console.log(nomes);
     const ordem = nomes.map((nome) => Animais[nome]);
 
     //verifica animal válido
