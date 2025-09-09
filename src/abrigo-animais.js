@@ -18,6 +18,12 @@ class AbrigoAnimais {
 
     const ordem = nomes.map((nome) => Animais[nome]);
 
+    //constroi pessoas
+    const pessoas = [
+      new Pessoa(1, ...brinquedos1),
+      new Pessoa(2, ...brinquedos2),
+    ];
+
     //verifica animal válido
     const verificaAnimal = ordem.every((a) => a != null);
     const verificaDuplicado = new Set(nomes).size === nomes.length;
@@ -25,11 +31,31 @@ class AbrigoAnimais {
       return { erro: "Animal inválido", lista: null };
     }
 
-    //constroi pessoas
-    const pessoas = [
-      new Pessoa(1, ...brinquedos1),
-      new Pessoa(2, ...brinquedos2),
-    ];
+    //verifica brinquedo válido
+    const brinquedosValidos = [
+      "RATO",
+      "BOLA",
+      "NOVELO",
+      "LASER",
+      "SKATE",
+      "CAIXA",
+    ]; //array de brinquedos
+    for (const pessoa of pessoas) {
+      const todosValidos = pessoa.brinquedos.every((b) =>
+        brinquedosValidos.includes(b)
+      );
+
+      if (!todosValidos) {
+        return { erro: `Brinquedo inválido`, lista: null };
+      }
+
+      // verifica duplicatas
+      const temDuplicado =
+        new Set(pessoa.brinquedos).size !== pessoa.brinquedos.length;
+      if (temDuplicado) {
+        return { erro: `Brinquedo inválido`, lista: null };
+      }
+    }
 
     for (const pessoa of pessoas) {
       //verifica se tem os brinquedos certos
